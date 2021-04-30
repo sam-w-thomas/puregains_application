@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PureGains_App</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="choose_username">Choose a username</string>
+    <string name="enter_birth">Enter date of birth</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="feed">Your feed</string>
+    <string name="profile">Your profile</string>
+    <string name="setting">Your settings</string>
+    <string name="logout">Log out</string>
+    <string name="user_name">Name</string>
+    <string name="user_username">Username</string>
+    <string name="user_desc">This is my basic description. I am interesting</string>
+    <string name="feed_text">GET them BOOTY glutes working lads and ladies. FAWKING DO SOME STRETCHES</string>
+</resources>
