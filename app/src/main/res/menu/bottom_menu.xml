@@ -7,6 +7,11 @@
         android:icon="@drawable/outline_feed_24"/>
 
     <item
+        android:id="@+id/post_fragment"
+        android:icon="@drawable/outline_add_circle_24"
+        android:title="Post" />
+
+    <item
         android:id="@+id/profile_fragment"
         android:title="Profile"
         android:icon="@drawable/outline_account_circle_24"/>
@@ -15,4 +20,5 @@
         android:id="@+id/setting_fragment"
         android:title="Settings"
         android:icon="@drawable/outline_settings_24"/>
+
 </menu>

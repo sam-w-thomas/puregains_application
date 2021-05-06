@@ -8,6 +8,7 @@
     <string name="feed">Your feed</string>
     <string name="profile">Your profile</string>
     <string name="setting">Your settings</string>
+    <string name="new_post">New post</string>
     <string name="logout">Log out</string>
     <string name="user_name">Name</string>
     <string name="user_username">Username</string>

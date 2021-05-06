@@ -5,28 +5,40 @@ import androidx.recyclerview.widget.RecyclerView
 data class FeedItem(
     val image : Int,
     val video : Int,
+    val photo : Int,
     val name : String,
     val username : String,
     val message : String,
     val viewType : Int
 ) {
-    constructor(image : Int, name : String, username : String, message : String) : this (
-        image,
-        -1,
-        name,
-        username,
-        message,
-        FeedItemAdapter.TYPE_ONE
-            )
+        constructor(image : Int, name : String, username : String, message : String) : this (
+                image,
+                -1,
+                -1,
+                name,
+                username,
+                message,
+                FeedItemAdapter.TYPE_TEXT
+        )
 
-    constructor(image : Int, video : Int, name : String, username : String, message : String) : this (
-        image,
-        video,
-        name,
-        username,
-        message,
-        FeedItemAdapter.TYPE_TWO
-    )
+        constructor(image : Int, video : Int, name : String, username : String, message : String) : this (
+                image,
+                video,
+                -1,
+                name,
+                username,
+                message,
+                FeedItemAdapter.TYPE_VIDEO
+        )
+        constructor(image : Int, name : String, username : String, message : String, picture : Int) : this (
+                image,
+                -1,
+                picture,
+                name,
+                username,
+                message,
+                FeedItemAdapter.TYPE_PHOTO
+        )
 
     companion object {
         fun generateFeed(name: String?) : List<FeedItem> {
@@ -37,6 +49,13 @@ data class FeedItem(
                             "Joss",
                             "joss16!",
                             "Heres how to do some FANTASTIC squats"
+                    ),
+                    FeedItem(
+                            R.drawable.avatar_android,
+                            "Joss",
+                            "joss16!",
+                            "Heres how to do some FANTASTIC squats",
+                            R.raw.sam_photo
                     ),
                     FeedItem(
                             R.drawable.avatar_android,
@@ -59,7 +78,6 @@ data class FeedItem(
                     FeedItem(R.drawable.avatar_baby, "Harry", "Harry1", "Did someone say SPIN class?"),
                     FeedItem(
                             R.drawable.avatar_android,
-                            R.raw.video_press,
                             "Sam",
                             "sam12",
                             "Heres how to do some FANTASTIC squats"

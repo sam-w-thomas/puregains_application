@@ -17,20 +17,27 @@ class FeedItemAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        //Inflate two types of cards (Text & Text+Video)
+        //Inflate three types of cards
         return when(viewType) {
-            0 -> FeedItemHolder(
-                    LayoutInflater.from(parent.context).inflate(
-                    R.layout.feed_item,
-                    parent,
-                    false)
-            )
-            else -> FeedVideoHolder(
+            TYPE_VIDEO -> FeedVideoHolder(
                     LayoutInflater.from(parent.context).inflate(
                             R.layout.feed_video_item,
                             parent,
                             false
                     )
+            )
+            TYPE_PHOTO -> FeedPhotoHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.feed_photo_item,
+                    parent,
+                    false
+                )
+            )
+            else -> FeedItemHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.feed_item,
+                    parent,
+                    false)
             )
         }
     }
@@ -89,6 +96,12 @@ class FeedItemAdapter(
             //val controller : MediaController = MediaController(context)
             //controller.setAnchorView(holder.video)
             //holder.video.setMediaController(controller)
+        } else if (holder is FeedPhotoHolder) {
+            holder.image.setImageResource(currentItem.image)
+            holder.name.text = currentItem.name
+            holder.username.text = currentItem.username
+            holder.message.text = currentItem.message
+            holder.photo.setImageResource(currentItem.photo)
         }
     }
 
@@ -115,8 +128,17 @@ class FeedItemAdapter(
         val video : VideoView = item.findViewById(R.id.feed_video)
     }
 
+    class FeedPhotoHolder(item: View) : RecyclerView.ViewHolder(item) {
+        val image : ImageView = item.findViewById(R.id.feed_photo_item_avatar)
+        val name : TextView = item.findViewById(R.id.feed_photo_item_name)
+        val username : TextView = item.findViewById(R.id.feed_photo_item_username)
+        val message : TextView = item.findViewById(R.id.feed_photo_item_message)
+        val photo : ImageView = item.findViewById(R.id.feed_photo)
+    }
+
     companion object {
-        const val TYPE_ONE = 0
-        const val TYPE_TWO = 1
+        const val TYPE_TEXT = 0
+        const val TYPE_VIDEO = 1
+        const val TYPE_PHOTO = 2
     }
 }

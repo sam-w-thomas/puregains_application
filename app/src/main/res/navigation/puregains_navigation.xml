@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_feed_fragment_to_setting_fragment2"
             app:destination="@id/setting_fragment" />
+        <action
+            android:id="@+id/action_feed_fragment_to_postFragment"
+            app:destination="@id/post_fragment" />
     </fragment>
     <fragment
         android:id="@+id/profile_fragment"
@@ -24,4 +27,9 @@
         android:id="@+id/setting_fragment"
         android:name="com.example.puregains_app.SettingFragment"
         android:label="@string/setting" />
+    <fragment
+        android:id="@+id/post_fragment"
+        android:name="com.example.puregains_app.PostFragment"
+        android:label="@string/new_post"
+        tools:layout="@layout/fragment_post" />
 </navigation>
