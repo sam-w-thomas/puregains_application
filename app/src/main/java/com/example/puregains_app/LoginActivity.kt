@@ -9,10 +9,14 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        userCheck()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
@@ -25,5 +29,38 @@ class LoginActivity : AppCompatActivity() {
         val loginAdapter : FragmentPagerAdapter = LoginFragmentAdapter(supportFragmentManager,tabLayout.tabCount)
         pageView.adapter = loginAdapter
         tabLayout.setupWithViewPager(pageView)
+    }
+
+    fun userCheck() {
+        if (Auth.hasAccount(this) and Auth.hasToken(this)) {
+            lauchMain()
+        } else if (Auth.hasAccount(this) and !Auth.hasToken(this)) {
+            try {
+                getToken()
+            } catch ( e : Exception) {
+                return
+            }
+        } else {
+            if (Auth.hasToken(this)) Auth.clearToken(this) // check for token, if somehow there
+            return
+        }
+    }
+
+    fun lauchMain() {
+        try {
+            val intent : Intent = Intent(this, CoreActivity::class.java)
+            this.startActivity(intent)
+        } catch (e : Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getToken() {
+        lateinit var token : String
+        runBlocking(Dispatchers.IO) {
+            token = Auth.requestToken(this@LoginActivity)
+        }
+
+        Auth.setToken(token,this)
     }
 }

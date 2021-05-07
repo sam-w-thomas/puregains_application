@@ -3,7 +3,9 @@
     <string name="enter_email">Enter email</string>
     <string name="enter_password">Enter password</string>
     <string name="choose_username">Choose a username</string>
-    <string name="enter_birth">Enter date of birth</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_birth">Birth date (YYYY/MM/DD)</string>
+    <string name="sel_avatar">Select profile avatar</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="feed">Your feed</string>
     <string name="profile">Your profile</string>

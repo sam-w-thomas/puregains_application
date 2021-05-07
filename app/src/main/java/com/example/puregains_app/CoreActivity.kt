@@ -1,6 +1,8 @@
 package com.example.puregains_app
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -15,6 +17,11 @@ class CoreActivity : AppCompatActivity()  {
         val bottomMenu = findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
         val navController = findNavController(R.id.nav_host_fragment)
         val title : TextView = findViewById<TextView>(R.id.title_text)
+        val logout_button : Button = findViewById<Button>(R.id.logout_button)
+
+        logout_button.setOnClickListener {
+            userLogout()
+        }
 
         bottomMenu.setupWithNavController(navController)
 
@@ -22,5 +29,17 @@ class CoreActivity : AppCompatActivity()  {
             title.text = destination.label
         }
 
+    }
+
+    fun userLogout() {
+        Auth.clearToken(this)
+        Auth.clearUser(this)
+
+        try {
+            val intent : Intent = Intent(this, LoginActivity::class.java)
+            this.startActivity(intent)
+        } catch (e : Exception) {
+            e.printStackTrace()
+        }
     }
 }
