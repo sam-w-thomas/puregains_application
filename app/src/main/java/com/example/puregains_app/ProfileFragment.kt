@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,8 +38,20 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         val view : View =  inflater.inflate(R.layout.fragment_profile, container, false)
 
+        var feedItems : MutableList<FeedItem> = mutableListOf<FeedItem>()
+        runBlocking(Dispatchers.IO) {
+            val posts = Connect.getPosts(Auth.getUsername(requireActivity()),null,null)
+            posts.forEach {
+                val item = FeedItem.generateItem(it, resources, requireActivity().packageName)
+                try {
+                    feedItems.add(item)
+                } catch ( e : Exception) {
+                }
+            }
+        }
+
         val recyclerView : RecyclerView = view.findViewById<RecyclerView>(R.id.profile_feed_view)
-        recyclerView.adapter = FeedItemAdapter(requireContext(), FeedItem.generateFeed("Sam"))
+        recyclerView.adapter = FeedItemAdapter(requireContext(), feedItems)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 

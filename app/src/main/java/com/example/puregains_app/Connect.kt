@@ -1,73 +1,121 @@
 package com.example.puregains_app
 
-import android.content.Context
-import android.database.Cursor
-import android.net.Uri
-import android.provider.MediaStore
+import android.app.Activity
 import android.util.Log
-import android.view.View
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import okhttp3.*
-import org.apache.commons.io.FileUtils
-import java.io.File
 import java.io.IOException
-
+import java.lang.reflect.Type
+import kotlin.Exception
 
 const val IP_ADDRESS = "10.0.2.2"
 const val PORT_NUMBER = "5000"
 const val SERVER_URL = "http://" + IP_ADDRESS + ":" + PORT_NUMBER + "/"
+private val mediaType : MediaType = MediaType.parse("application/json")
 
-/**
- * Connect to server
- *
- * params:
- * - postUrl: URL to send post
- * - postBody: HTTP body to send
- */
+class Connect() {
+    companion object {
+        fun sendPost(
+            message : String,
+            tags : String,
+            media_path : String,
+            is_video : Boolean,
+            activity : Activity
+        ) {
+            val client: OkHttpClient = OkHttpClient()
 
-fun postText() {
+            val body : RequestBody
+            if (is_video) {
+                body = RequestBody.create(
+                    mediaType,
+                    JsonObject(
+                        mapOf(
+                            "username" to JsonPrimitive(Auth.getUsername(activity)),
+                            "message" to JsonPrimitive(message),
+                            "video_path" to JsonPrimitive(media_path),
+                            "post_tags" to JsonPrimitive(tags)
+                        )
+                    ).toString()
+                )
+            } else {
+                 body = RequestBody.create(
+                    mediaType,
+                    JsonObject(
+                        mapOf(
+                            "username" to JsonPrimitive(Auth.getUsername(activity)),
+                            "message" to JsonPrimitive(message),
+                            "photo_path" to JsonPrimitive(media_path),
+                            "post_tags" to JsonPrimitive(tags)
+                        )
+                    ).toString()
+                )
 
-}
-
-
-fun postMedia(
-    media_path: String
-) {
-
-}
-
-fun postPhoto(selectedImg: String) {
-    val file : File = File(selectedImg)
-    val array : ByteArray = byteArrayEncode(file)
-
-    Log.i("TEST", array.toString())
-}
-
-fun byteArrayEncode(file: File) : ByteArray {
-    return FileUtils.readFileToByteArray(file)
-}
-
-fun postRequest(url: String, body: RequestBody, view: View) {
-
-    val client : OkHttpClient = OkHttpClient()
-
-    val request : Request = Request.Builder()
-        .url(url)
-        .post(body)
-        .build()
-
-    client.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call?, e: IOException?) {
-            call?.cancel()
-
-            Log.i("HTTP", e.toString())
-        }
-
-        override fun onResponse(call: Call?, response: Response?) {
-            Log.i("HTTP", "CALL SUCCED")
-
-            if (response != null) {
-                Log.i("HTTP-MESSAGE", response.body().string())
             }
+
+            val request : Request = Request.Builder()
+                .url(SERVER_URL + "api/post")
+                .post(body)
+                .addHeader("x-access-tokens", Auth.getToken(activity))
+                .build()
+
+            client.newCall(request).enqueue( object : Callback {
+                override fun onFailure(call: Call?, e: IOException?) {
+                    Log.i("POSTS","UNABLE TO CREATE POSTS")
+                    throw Exception("Unable to create post")
+                }
+
+                override fun onResponse(call: Call?, response: Response?) {
+                    Log.i("POST","POST Succesfully created")
+                }
+
+            }
+
+            )
         }
-    })
+
+        fun getPosts(
+            username: String?,
+            name: String?,
+            tags: String?
+        ): List<LinkedTreeMap<String, Any>> {
+            val client: OkHttpClient = OkHttpClient()
+
+            lateinit var request: Request
+            if (username != null) {
+                request = Request.Builder()
+                    .url(SERVER_URL + "api/user/" + username + "/posts")
+                    .get()
+                    .build()
+            } else {
+                val request_build: Request.Builder = Request.Builder()
+                    .url(SERVER_URL + "api/posts")
+                    .get()
+
+                if (name != null) {
+                    request_build.addHeader("name", name)
+                }
+
+                if (tags != null) {
+                    request_build.addHeader("tags", tags)
+                }
+
+                request = request_build.build()
+            }
+
+            val response = client.newCall(request).execute()
+
+            val json_str = response.body().string().toString()
+
+            Log.i("POSTS", json_str)
+
+            val gson = Gson()
+
+            return gson.fromJson(json_str, List::class.java) as List<LinkedTreeMap<String, Any>>
+        }
+    }
 }
+

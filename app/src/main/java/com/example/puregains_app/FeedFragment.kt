@@ -1,15 +1,19 @@
 package com.example.puregains_app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlin.Exception
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -35,9 +39,22 @@ class FeedFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view : View = inflater.inflate(R.layout.fragment_feed, container, false)
 
+        var feedItems : MutableList<FeedItem> = mutableListOf<FeedItem>()
+        runBlocking(Dispatchers.IO) {
+            val posts = Connect.getPosts(null,null,null)
+            Log.i("POSTS",posts.toString())
+            posts.forEach {
+                val item = FeedItem.generateItem(it, resources, requireActivity().packageName)
+                try {
+                    feedItems.add(item)
+                } catch ( e : Exception) {
+                }
+            }
+        }
+
         //Manage feed recycler view
         val recyclerView : RecyclerView = view.findViewById<RecyclerView>(R.id.feed_recycler_view)
-        recyclerView.adapter = FeedItemAdapter(requireContext(), FeedItem.generateFeed(null))
+        recyclerView.adapter = FeedItemAdapter(requireContext(), feedItems)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 

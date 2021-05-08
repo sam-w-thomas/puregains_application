@@ -10,9 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Switch
+import android.widget.TextView
 import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import org.w3c.dom.Text
 import java.io.File
+import kotlin.Exception
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,6 +47,11 @@ class PostFragment : Fragment() {
         val button_get : Button = view.findViewById<Button>(R.id.image_get)
         button_get.setOnClickListener { selectImage(it) }
 
+        val submit_post : Button = view.findViewById<Button>(R.id.post_button_submit)
+        submit_post.setOnClickListener {
+            createPost()
+        }
+
         return view
     }
 
@@ -56,6 +66,32 @@ class PostFragment : Fragment() {
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 0)
     }
+
+    fun createPost() {
+        val message : String = requireView().findViewById<TextView>(R.id.post_message_text).text.toString()
+        val media : String = requireView().findViewById<TextView>(R.id.image_path_text).text.toString()
+        val is_video : Boolean = requireView().findViewById<Switch>(R.id.new_post_video).isActivated
+        val post_tags : String = requireView().findViewById<TextView>(R.id.post_tags).text.toString()
+
+        try {
+            Connect.sendPost(
+                message,
+                post_tags,
+                media,
+                is_video,
+                requireActivity()
+            )
+        } catch ( e : Exception) {
+            errorMessage("Unable to create post")
+        }
+
+    }
+
+    fun errorMessage(message : String) {
+        val snackbar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+    }
+
 
     companion object {
         @JvmStatic
