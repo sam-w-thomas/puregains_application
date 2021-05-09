@@ -5,9 +5,13 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import okhttp3.*
+import org.json.JSONObject
 import java.io.IOException
 import java.lang.reflect.Type
 import kotlin.Exception
@@ -19,6 +23,30 @@ private val mediaType : MediaType = MediaType.parse("application/json")
 
 class Connect() {
     companion object {
+        /**
+         * Update likes associated with post
+         */
+        fun updateLikes(
+            post_id : String,
+            activity: Activity
+        ) : String {
+            val client: OkHttpClient = OkHttpClient()
+
+            val request : Request = Request.Builder()
+                .url(SERVER_URL + "api/post/" + post_id + "/likes")
+                .put(RequestBody.create(null, ""))
+                .addHeader("x-access-tokens", Auth.getToken(activity))
+                .build()
+
+            val response = client.newCall(request).execute()
+
+            if (response.code() != 200) {
+                throw Exception("Unable to update likes")
+            } else {
+                return JSONObject(response.body().string().toString()).get("post_likes").toString()
+            }
+        }
+
         fun sendPost(
             message : String,
             tags : String,
@@ -37,6 +65,17 @@ class Connect() {
                             "username" to JsonPrimitive(Auth.getUsername(activity)),
                             "message" to JsonPrimitive(message),
                             "video_path" to JsonPrimitive(media_path),
+                            "post_tags" to JsonPrimitive(tags)
+                        )
+                    ).toString()
+                )
+            } else if ((media_path=="") or (media_path=="null")) {
+                body = RequestBody.create(
+                    mediaType,
+                    JsonObject(
+                        mapOf(
+                            "username" to JsonPrimitive(Auth.getUsername(activity)),
+                            "message" to JsonPrimitive(message),
                             "post_tags" to JsonPrimitive(tags)
                         )
                     ).toString()
@@ -107,14 +146,91 @@ class Connect() {
             }
 
             val response = client.newCall(request).execute()
-
             val json_str = response.body().string().toString()
-
-            Log.i("POSTS", json_str)
-
             val gson = Gson()
 
-            return gson.fromJson(json_str, List::class.java) as List<LinkedTreeMap<String, Any>>
+            val return_json = gson.fromJson(json_str, List::class.java)
+            return return_json as List<LinkedTreeMap<String, Any>>
+        }
+
+        /**
+         * Retrieves user info
+         */
+        fun getUser(
+        username : String
+        ): Map<String,Any> {
+            val client: OkHttpClient = OkHttpClient()
+
+            val request = Request.Builder()
+                    .url(SERVER_URL + "api/user/" + username)
+                    .get()
+                    .build()
+
+            val response = client.newCall(request).execute()
+
+            if(response.code() != 200) {
+                throw Exception("Unable to get user information")
+            }
+
+            val json_str = response.body().string().toString()
+            val gson = Gson()
+
+            return gson.fromJson(json_str, Map::class.java) as Map<String,Any>
+        }
+
+        /**
+         * Update user
+         */
+        fun updateUser(
+            name : String,
+            desc : String,
+            tags : String,
+            avatar : String,
+            username : String,
+            token : String
+        ) : Boolean {
+            val client: OkHttpClient = OkHttpClient()
+
+            val properties = mutableMapOf<String, JsonPrimitive>()
+
+            // build properties
+            if (name != "") {
+                properties["name"] = JsonPrimitive(name)
+            }
+            if (desc != "") {
+                properties["desc"] = JsonPrimitive(desc)
+            }
+            if (tags != "") {
+                properties["tags"] = JsonPrimitive(tags)
+            }
+            if (avatar != "") {
+                properties["avatar_path"] = JsonPrimitive(avatar)
+            }
+
+            val body = RequestBody.create(
+                mediaType,
+                JsonObject(properties).toString()
+            )
+
+            val request = Request.Builder()
+                .url(SERVER_URL + "api/user/" + username)
+                .put(body)
+                .addHeader("x-access-tokens",token)
+                .build()
+
+            lateinit var response : Response
+            runBlocking(Dispatchers.IO) {
+                response = client.newCall(request).execute()
+            }
+
+            val success : Boolean
+            if (response.code() == 200) {
+                success = true
+            } else {
+                success = false
+            }
+
+            return success
         }
     }
 }

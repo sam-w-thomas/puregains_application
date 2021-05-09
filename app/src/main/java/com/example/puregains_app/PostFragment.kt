@@ -14,6 +14,7 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import org.w3c.dom.Text
 import java.io.File
@@ -49,16 +50,11 @@ class PostFragment : Fragment() {
 
         val submit_post : Button = view.findViewById<Button>(R.id.post_button_submit)
         submit_post.setOnClickListener {
-            createPost()
+            createPost(it)
         }
 
         return view
     }
-
-    /**
-     * Handle getting correct connection string
-     * Initiate server connect
-     */
 
     fun selectImage(v: View) {
         val intent = Intent()
@@ -67,11 +63,16 @@ class PostFragment : Fragment() {
         startActivityForResult(intent, 0)
     }
 
-    fun createPost() {
+    fun createPost(view : View) {
         val message : String = requireView().findViewById<TextView>(R.id.post_message_text).text.toString()
         val media : String = requireView().findViewById<TextView>(R.id.image_path_text).text.toString()
         val is_video : Boolean = requireView().findViewById<Switch>(R.id.new_post_video).isActivated
         val post_tags : String = requireView().findViewById<TextView>(R.id.post_tags).text.toString()
+
+        if (post_tags.split(",").size > 3) { // Check number of tags
+            errorMessage("Invalid number of tags")
+            return
+        }
 
         try {
             Connect.sendPost(
@@ -85,7 +86,9 @@ class PostFragment : Fragment() {
             errorMessage("Unable to create post")
         }
 
+        requireActivity().findNavController(view.id).navigate(R.id.action_post_fragment_to_feed_fragment)
     }
+
 
     fun errorMessage(message : String) {
         val snackbar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)

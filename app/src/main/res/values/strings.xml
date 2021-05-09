@@ -10,10 +10,19 @@
     <string name="feed">Your feed</string>
     <string name="profile">Your profile</string>
     <string name="setting">Your settings</string>
+    <string name="change_account_avatar">User avatar</string>
+    <string name="change_account_bio">Enter new bio</string>
+    <string name="change_account_name">Enter name</string>
+    <string name="change_account_tags">exercise, cardio, weights</string>
     <string name="new_post">New post</string>
     <string name="logout">Log out</string>
     <string name="user_name">Name</string>
     <string name="user_username">Username</string>
     <string name="user_desc">This is my basic description. I am interesting</string>
+    <string name="update_user">Update account</string>
+    <string name="update_security">Update security</string>
+    <string name="update_sound">Update sound</string>
+    <string name="sound_select">Adjust video sound</string>
+    <string name="update_password">Enter new password</string>
     <string name="feed_text">GET them BOOTY glutes working lads and ladies. FAWKING DO SOME STRETCHES</string>
 </resources>

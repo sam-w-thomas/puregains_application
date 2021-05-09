@@ -42,7 +42,6 @@ class FeedFragment : Fragment() {
         var feedItems : MutableList<FeedItem> = mutableListOf<FeedItem>()
         runBlocking(Dispatchers.IO) {
             val posts = Connect.getPosts(null,null,null)
-            Log.i("POSTS",posts.toString())
             posts.forEach {
                 val item = FeedItem.generateItem(it, resources, requireActivity().packageName)
                 try {
@@ -54,7 +53,7 @@ class FeedFragment : Fragment() {
 
         //Manage feed recycler view
         val recyclerView : RecyclerView = view.findViewById<RecyclerView>(R.id.feed_recycler_view)
-        recyclerView.adapter = FeedItemAdapter(requireContext(), feedItems)
+        recyclerView.adapter = FeedItemAdapter(requireActivity(), requireContext(), feedItems)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 

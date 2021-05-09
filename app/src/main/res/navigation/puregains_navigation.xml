@@ -31,5 +31,9 @@
         android:id="@+id/post_fragment"
         android:name="com.example.puregains_app.PostFragment"
         android:label="@string/new_post"
-        tools:layout="@layout/fragment_post" />
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_post_fragment_to_feed_fragment"
+            app:destination="@id/feed_fragment" />
+    </fragment>
 </navigation>

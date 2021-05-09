@@ -17,9 +17,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:foreground="@drawable/profile_theme"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_tags"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -27,36 +28,68 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/user_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/feed_item_avatar"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_tags" />
 
         <TextView
             android:id="@+id/feed_item_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="2dp"
             android:text="@string/user_username"
-            app:layout_constraintBottom_toBottomOf="@+id/feed_item_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/feed_item_name" />
+            app:layout_constraintStart_toEndOf="@+id/feed_item_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/feed_item_name" />
 
         <TextView
             android:id="@+id/feed_item_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="@string/feed_text"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/feed_item_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/feed_item_name" />
+            app:layout_constraintTop_toBottomOf="@+id/feed_item_username" />
+
+        <LinearLayout
+            android:id="@+id/profile_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="112dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_layout">
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/feed_thumbs_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_tags"
+            app:srcCompat="@drawable/outline_thumb_up_24" />
+
+        <TextView
+            android:id="@+id/feed_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="4dp"
+            android:text="0"
+            app:layout_constraintEnd_toStartOf="@+id/feed_thumbs_up"
+            app:layout_constraintTop_toBottomOf="@+id/profile_tags" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

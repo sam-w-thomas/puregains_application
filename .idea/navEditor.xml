@@ -39,13 +39,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="postFragment">
+                  <entry key="post_fragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-197" />
-                            <option name="y" value="-484" />
+                            <option name="x" value="-545" />
+                            <option name="y" value="-363" />
                           </Point>
                         </option>
                       </LayoutPositions>
