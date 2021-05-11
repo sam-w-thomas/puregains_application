@@ -24,7 +24,6 @@ class FeedItemAdapter(
         val context : Context,
         val items: List<FeedItem>
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         //Inflate three types of cards
@@ -89,7 +88,8 @@ class FeedItemAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentItem = items[position - (position/ADVERT_FACTOR)]
+        var adjusted_position = position - (position/(ADVERT_FACTOR-1))
+        val currentItem : FeedItem=items[adjusted_position]
 
         if (holder is FeedItemHolder) {
             holder.image.setImageResource(currentItem.image)
@@ -111,6 +111,8 @@ class FeedItemAdapter(
                 val action = FeedFragmentDirections.actionFeedFragmentToProfileFragment(currentItem.username)
                 activity.findNavController(R.id.nav_host_fragment).navigate(action)
             }
+
+            holder.tag_layout.removeAllViews()
             for (tag in currentItem.tags.split(",")) {
                 addTags(
                     holder.tag_layout,
@@ -119,7 +121,6 @@ class FeedItemAdapter(
             }
 
         } else if (holder is FeedVideoHolder) {
-            Log.i("USERNAME", "Feed video holder created")
             holder.image.setImageResource(currentItem.image)
             holder.name.text = currentItem.name
             holder.username.text = currentItem.username
@@ -139,6 +140,7 @@ class FeedItemAdapter(
                 activity.findNavController(R.id.nav_host_fragment).navigate(action)
             }
 
+            holder.tag_layout.removeAllViews()
             for (tag in currentItem.tags.split(",")) {
                 addTags(
                     holder.tag_layout,
@@ -162,7 +164,6 @@ class FeedItemAdapter(
             }
 
         } else if (holder is FeedPhotoHolder) {
-            Log.i("USERNAME", "Feed photo holder created")
             holder.image.setImageResource(currentItem.image)
             holder.name.text = currentItem.name
             holder.username.text = currentItem.username
@@ -182,6 +183,8 @@ class FeedItemAdapter(
                 val action = FeedFragmentDirections.actionFeedFragmentToProfileFragment(currentItem.username)
                 activity.findNavController(R.id.nav_host_fragment).navigate(action)
             }
+
+            holder.tag_layout.removeAllViews()
             for (tag in currentItem.tags.split(",")) {
                 addTags(
                     holder.tag_layout,
@@ -196,22 +199,20 @@ class FeedItemAdapter(
     }
 
     override fun getItemCount(): Int {
-        val count = items.size + (items.size/(ADVERT_FACTOR))
-        Log.i("USERNAME", count.toString())
+        val count = items.size + (items.size/(ADVERT_FACTOR-1))
+        Log.i("SIZE", count.toString())
         return count
     }
 
     override fun getItemViewType(position: Int): Int {
         val return_type : Int
 
-        if (position == 0) return items[position].viewType
-
-        if (position.rem((ADVERT_FACTOR * 2) + 2) == 0) {
+        if ((position+1).rem((ADVERT_FACTOR * 2) + 2) == 0) {
             return_type = TYPE_ADVERT_LARGER
-        } else if (position.rem(ADVERT_FACTOR + 1) == 0) {
+        } else if ((position+1).rem(ADVERT_FACTOR + 1) == 0) {
             return_type = TYPE_ADVERT_BANNER
         } else {
-            val adjusted_position = position - (position/(ADVERT_FACTOR))
+            var adjusted_position = position - (position/(ADVERT_FACTOR-1))
             return_type = items[adjusted_position].viewType
         }
         return return_type

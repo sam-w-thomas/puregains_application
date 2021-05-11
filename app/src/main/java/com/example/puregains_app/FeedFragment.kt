@@ -35,7 +35,6 @@ class FeedFragment : Fragment() {
                 }
             }
         }
-        Log.i("USER", feedItems.toString())
 
         //Manage feed recycler view
         val recyclerView : RecyclerView = view.findViewById<RecyclerView>(R.id.feed_recycler_view)
