@@ -22,7 +22,11 @@
     <fragment
         android:id="@+id/profile_fragment"
         android:name="com.example.puregains_app.ProfileFragment"
-        android:label="@string/profile" />
+        android:label="@string/profile" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/setting_fragment"
         android:name="com.example.puregains_app.SettingFragment"

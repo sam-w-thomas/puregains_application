@@ -20,9 +20,24 @@
     <string name="user_username">Username</string>
     <string name="user_desc">This is my basic description. I am interesting</string>
     <string name="update_user">Update account</string>
+    <string name="account_type">Account type</string>
+    <string name="account_free">Free</string>
+    <string name="account_premium">Premium</string>
+    <string name="reward_points">Reward points</string>
+    <string name="redeem_points">Redeem points</string>
+    <string name="redeem_pt">Unlock chosen PT content for 3 days</string>
+    <string name="redeem_purchase">Redeem £10 in-app credit</string>
+    <string name="redeem_sub">Unlock chosen PT content for 1 month</string>
     <string name="update_security">Update security</string>
     <string name="update_sound">Update sound</string>
+    <string name="credit_amount">Credit amount</string>
+    <string name="unlock_premium">Unlock premium for month</string>
+    <string name="claim">Claim</string>
     <string name="sound_select">Adjust video sound</string>
     <string name="update_password">Enter new password</string>
     <string name="feed_text">GET them BOOTY glutes working lads and ladies. FAWKING DO SOME STRETCHES</string>
+    <string name="choose_100">100</string>
+    <string name="choose_200">200</string>
+    <string name="choose_400">400</string>
+    <string name="choose_600">600</string>
 </resources>

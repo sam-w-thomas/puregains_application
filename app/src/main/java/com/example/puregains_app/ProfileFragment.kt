@@ -9,44 +9,37 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import java.lang.reflect.InvocationTargetException
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [profileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
+
+    val args : ProfileFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view : View =  inflater.inflate(R.layout.fragment_profile, container, false)
+        var username : String
+        try {
+            username = args.username
+        } catch ( e : InvocationTargetException) {
+            username = Auth.getUsername(requireActivity())
+        }
 
-        view.findViewById<TextView>(R.id.profile_username).text = Auth.getUsername(requireActivity())
+        view.findViewById<TextView>(R.id.profile_username).text = username
 
         // get user profile
         runBlocking(Dispatchers.IO) {
-            val user_info = Connect.getUser(Auth.getUsername(requireActivity()))
+            val user_info = Connect.getUser(username)
             updateProfile(
                     view,
                     user_info.get("name").toString(),
@@ -54,14 +47,12 @@ class ProfileFragment : Fragment() {
                     user_info.get("user_tags").toString(),
                     requireActivity().resources.getIdentifier(user_info.get("avatar_path").toString() , "raw", requireActivity().packageName)
             )
-
-            Log.i("POSTS",user_info.toString())
         }
 
         // create feed
         val feedItems : MutableList<FeedItem> = mutableListOf<FeedItem>()
         runBlocking(Dispatchers.IO) {
-            val posts = Connect.getPosts(Auth.getUsername(requireActivity()),null,null)
+            val posts = Connect.getPosts(username,null,null)
             posts.forEach {
                 val item = FeedItem.generateItem(it, resources, requireActivity().packageName)
                 try {
@@ -103,25 +94,5 @@ class ProfileFragment : Fragment() {
                     tag
             )
         }
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment profileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                ProfileFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
     }
 }

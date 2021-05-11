@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RewardFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/account_redeem_three_text"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fresh_blue"
+            android:padding="0dp"
+            android:text="@string/choose_400"
+            android:textColor="@color/line_blue"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/account_redeem_three"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/account_redeem_three"
+            app:layout_constraintTop_toTopOf="@+id/account_redeem_three" />
+
+        <Button
+            android:id="@+id/account_redeem_four_text"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fresh_blue"
+            android:padding="0dp"
+            android:text="@string/choose_600"
+            android:textColor="@color/line_blue"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/account_redeem_four"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/account_redeem_four"
+            app:layout_constraintTop_toTopOf="@+id/account_redeem_four" />
+
+        <Button
+            android:id="@+id/account_redeem_two_text"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/fresh_blue"
+            android:padding="0dp"
+            android:text="@string/choose_200"
+            android:textColor="@color/line_blue"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/account_redeem_two"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/account_redeem_two"
+            app:layout_constraintTop_toTopOf="@+id/account_redeem_two" />
+
+        <TextView
+            android:id="@+id/account_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/account_type"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/account_type_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/account_free"
+            android:backgroundTint="@color/fresh_blue"
+            android:textColor="@color/line_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/account_type"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/account_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/reward_points"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_type_button" />
+
+        <TextView
+            android:id="@+id/account_reward_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="0"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/account_reward"
+            app:layout_constraintTop_toBottomOf="@+id/account_type_button" />
+
+        <TextView
+            android:id="@+id/account_credit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="0"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/account_credit"
+            app:layout_constraintTop_toBottomOf="@+id/account_reward_text" />
+
+        <TextView
+            android:id="@+id/account_redeem_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/redeem_points"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_credit" />
+
+        <TextView
+            android:id="@+id/account_redeem_one"
+            android:layout_width="205dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:text="@string/redeem_pt"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_redeem_points" />
+
+        <TextView
+            android:id="@+id/account_redeem_two"
+            android:layout_width="102dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:text="@string/redeem_purchase"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/account_redeem_one"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_redeem_one" />
+
+        <TextView
+            android:id="@+id/account_redeem_three"
+            android:layout_width="193dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:text="@string/redeem_sub"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/account_redeem_two"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_redeem_two" />
+
+        <TextView
+            android:id="@+id/account_redeem_four"
+            android:layout_width="193dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:text="@string/unlock_premium"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/account_redeem_two"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_redeem_three" />
+
+        <Button
+            android:id="@+id/account_redeem_one_text"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fresh_blue"
+            android:padding="0dp"
+            android:text="@string/choose_100"
+            android:textColor="@color/line_blue"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/account_redeem_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/account_redeem_one"
+            app:layout_constraintTop_toTopOf="@+id/account_redeem_one" />
+
+        <TextView
+            android:id="@+id/account_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/credit_amount"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_reward" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

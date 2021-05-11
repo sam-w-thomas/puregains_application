@@ -19,6 +19,7 @@
             android:layout_marginTop="16dp"
             android:foreground="@drawable/profile_theme"
             android:src="@drawable/puregains_profile"
+            android:scaleType="centerCrop"
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -70,7 +71,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_tags" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_tags"
+            android:overScrollMode="never"/>
 
         <LinearLayout
             android:id="@+id/profile_tags"

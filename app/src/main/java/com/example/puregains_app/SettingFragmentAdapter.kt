@@ -15,6 +15,7 @@ class SettingFragmentAdapter(fm: FragmentManager,
         return when (position) {
             1 -> SecurityFragment()
             2 -> SoundFragment()
+            3 -> RewardFragment()
             else -> AccountFragment()
         }
     }
@@ -23,6 +24,7 @@ class SettingFragmentAdapter(fm: FragmentManager,
         return when (position) {
             1 -> "Security"
             2 -> "Sound"
+            3 -> "Bonus"
             else -> "Account"
         }
     }

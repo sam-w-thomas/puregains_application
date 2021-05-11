@@ -47,6 +47,160 @@ class Connect() {
             }
         }
 
+        /**
+         * Get a users reward points
+         */
+        fun getReward(
+            username: String,
+            token: String
+        ) : Int {
+            val client: OkHttpClient = OkHttpClient()
+
+            val request : Request = Request.Builder()
+                .url(SERVER_URL + "api/user/" + username + "/reward")
+                .get()
+                .addHeader("x-access-tokens", token)
+                .build()
+
+            val response = client.newCall(request).execute()
+
+            if (response.code() != 200) {
+                throw Exception("Unable get reward points")
+            } else {
+                return JSONObject(response.body().string().toString()).get("reward_points").toString().toInt()
+            }
+        }
+        /**
+         * Get a users credit
+         */
+        fun getCredit(
+            username: String,
+            token: String
+        ) : Int {
+            val client: OkHttpClient = OkHttpClient()
+
+            val request : Request = Request.Builder()
+                .url(SERVER_URL + "api/user/" + username + "/credit")
+                .get()
+                .addHeader("x-access-tokens", token)
+                .build()
+
+            val response = client.newCall(request).execute()
+
+            if (response.code() != 200) {
+                throw Exception("Unable to get credit")
+            } else {
+                return JSONObject(response.body().string().toString()).get("credit").toString().toInt()
+            }
+        }
+
+        /**
+         * Update users credit
+         * Returns updated credit
+         */
+        fun updateCredit(
+                username : String,
+                credit : Int,
+                token : String
+        ) : Int {
+            val client: OkHttpClient = OkHttpClient()
+
+            val body : RequestBody = RequestBody.create(
+                    mediaType,
+                    JsonObject(
+                            mapOf(
+                                    "credit" to JsonPrimitive(credit),
+                            )
+                    ).toString()
+            )
+
+            val request : Request = Request.Builder()
+                    .url(SERVER_URL + "api/user/" + username)
+                    .put(body)
+                    .addHeader("x-access-tokens", token)
+                    .build()
+
+            val response : Response = client.newCall(request).execute()
+
+            if (response.code() == 200) {
+                return JSONObject(response.body().string().toString()).get("credit").toString().toInt()
+            } else {
+                throw Exception("Unable to update credit")
+            }
+        }
+
+
+        /**
+         * Update users reward points
+         * Returns updated reward points
+         */
+        fun updateReward(
+                username : String,
+                reward : Int,
+                token : String
+        ) : Int {
+            val client: OkHttpClient = OkHttpClient()
+
+            val body : RequestBody = RequestBody.create(
+                    mediaType,
+                    JsonObject(
+                            mapOf(
+                                    "reward_points" to JsonPrimitive(reward),
+                            )
+                    ).toString()
+            )
+
+            val request : Request = Request.Builder()
+                    .url(SERVER_URL + "api/user/" + username)
+                    .put(body)
+                    .addHeader("x-access-tokens", token)
+                    .build()
+
+            val response : Response = client.newCall(request).execute()
+
+            if (response.code() == 200) {
+                return JSONObject(response.body().string().toString()).get("reward_points").toString().toInt()
+            } else {
+                throw Exception("Unable to update reward points")
+            }
+        }
+
+        /**
+         * Update users account type
+         */
+        fun updatePremium(
+                username : String,
+                premium : Boolean,
+                token : String
+        ) {
+            val client: OkHttpClient = OkHttpClient()
+
+            val body : RequestBody = RequestBody.create(
+                    mediaType,
+                    JsonObject(
+                            mapOf(
+                                    "premium" to JsonPrimitive(premium),
+                            )
+                    ).toString()
+            )
+
+            val request : Request = Request.Builder()
+                    .url(SERVER_URL + "api/user/" + username + "/premium")
+                    .put(body)
+                    .addHeader("x-access-tokens", token)
+                    .build()
+
+            val response : Response = client.newCall(request).execute()
+
+            if (response.code() != 200) {
+                throw Exception("Unable to update reward points")
+            }
+        }
+
+
+        /**
+         * Send user post
+         */
         fun sendPost(
             message : String,
             tags : String,

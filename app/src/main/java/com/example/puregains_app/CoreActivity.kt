@@ -42,4 +42,10 @@ class CoreActivity : AppCompatActivity()  {
             e.printStackTrace()
         }
     }
+
+    fun launchProfile(
+        username : String
+    ) {
+        findNavController(R.id.nav_host_fragment).navigate(R.id.action_feed_fragment_to_profile_fragment)
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.puregains_app
 
 import android.app.Activity
+import android.util.Log
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import okhttp3.*
@@ -45,6 +46,31 @@ class Auth {
         fun getUsername(activity: Activity) : String{
             val preferences = activity.getSharedPreferences(AUTH_PREF, 0)
             return preferences.getString(USER_USERNAME, "null").toString()
+        }
+
+        /**
+         * Get user status (free or premium)
+         */
+        fun isPremium(activity: Activity) : Boolean {
+            val username : String = getUsername(activity)
+            val token : String = getToken(activity)
+
+            val client: OkHttpClient = OkHttpClient()
+
+            val request : Request = Request.Builder()
+                .url(SERVER_URL + "api/user/" + username + "/type")
+                .get()
+                .addHeader("x-access-tokens", token)
+                .build()
+
+            val response = client.newCall(request).execute()
+
+            if (response.code() != 200) {
+                throw Exception("Unable to get credit")
+            } else {
+                val premium = JSONObject(response.body().string().toString()).get("type").toString().toInt()
+                return if (premium==1) true else false
+            }
         }
 
         /**
