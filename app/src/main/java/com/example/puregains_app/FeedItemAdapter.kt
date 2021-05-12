@@ -16,16 +16,35 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlin.math.floor
+import kotlin.math.truncate
 
-const val ADVERT_FACTOR : Int = 4
+const val ADVERT_FACTOR : Int = 5
 
 class FeedItemAdapter(
     val activity : Activity,
         val context : Context,
-        val items: List<FeedItem>
+        var items: List<FeedItem>
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    init {
+        val new_items = items as MutableList<FeedItem>
+        val total_new_items = (items.size + items.size/ADVERT_FACTOR)
 
+        for (i in 0..total_new_items) {
+            if (i == 0) {
+                continue
+            }
+
+            if (i % (ADVERT_FACTOR*2) == 0) {
+                new_items.add(i, FeedItem(viewType = TYPE_ADVERT_LARGER))
+            } else if (i % ADVERT_FACTOR == 0) {
+                new_items.add(i, FeedItem(viewType = TYPE_ADVERT_BANNER))
+            }
+        }
+
+        items = new_items
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //Inflate three types of cards
         return when(viewType) {
             TYPE_ADVERT_BANNER -> FeedAdvertBanner(
@@ -88,8 +107,7 @@ class FeedItemAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        var adjusted_position = position - (position/(ADVERT_FACTOR-1))
-        val currentItem : FeedItem=items[adjusted_position]
+        val currentItem : FeedItem=items[position]
 
         if (holder is FeedItemHolder) {
             holder.image.setImageResource(currentItem.image)
@@ -199,23 +217,12 @@ class FeedItemAdapter(
     }
 
     override fun getItemCount(): Int {
-        val count = items.size + (items.size/(ADVERT_FACTOR-1))
-        Log.i("SIZE", count.toString())
+        val count = items.size
         return count
     }
 
     override fun getItemViewType(position: Int): Int {
-        val return_type : Int
-
-        if ((position+1).rem((ADVERT_FACTOR * 2) + 2) == 0) {
-            return_type = TYPE_ADVERT_LARGER
-        } else if ((position+1).rem(ADVERT_FACTOR + 1) == 0) {
-            return_type = TYPE_ADVERT_BANNER
-        } else {
-            var adjusted_position = position - (position/(ADVERT_FACTOR-1))
-            return_type = items[adjusted_position].viewType
-        }
-        return return_type
+        return items[position].viewType
     }
 
     class FeedItemHolder(item: View) : RecyclerView.ViewHolder(item) {

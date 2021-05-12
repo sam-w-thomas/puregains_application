@@ -270,6 +270,9 @@ class Connect() {
             )
         }
 
+        /**
+         * Get posts associated with user
+         */
         fun getPosts(
             username: String?,
             name: String?,

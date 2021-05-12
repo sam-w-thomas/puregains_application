@@ -16,10 +16,6 @@ const val USER_PASSWORD : String = "user_password"
 const val USER_TOKEN : String = "user_token"
 
 class Auth {
-
-    /***
-     * Set user username and password in Shared Preferences
-     */
     companion object {
         /**
          * Set user username and password

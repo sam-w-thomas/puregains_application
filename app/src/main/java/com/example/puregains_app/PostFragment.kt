@@ -26,7 +26,6 @@ class PostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view : View = inflater.inflate(R.layout.fragment_post, container, false)
 
         val button_get : Button = view.findViewById<Button>(R.id.image_get)
